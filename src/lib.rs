@@ -1,14 +1,16 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+use std::env;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+use diesel::prelude::*;
+use diesel::{sqlite::SqliteConnection, Connection};
+use dotenvy::dotenv;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub mod models;
+pub mod schema;
+
+pub fn establish_connection() -> SqliteConnection {
+    dotenv().ok();
+
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    SqliteConnection::establish(&database_url)
+        .unwrap_or_else(|e| panic!("Error connecting to {} : {:?}", database_url, e))
 }

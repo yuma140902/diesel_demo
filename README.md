@@ -10,3 +10,8 @@
 cargo install diesel_cli --no-default-features --features sqlite-bundled
 ```
 
+### `DATABASE_URL`
+
+```sh
+echo DATABASE_URL=./db.sqlite3 > .env
+```
